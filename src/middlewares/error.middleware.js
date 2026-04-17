@@ -10,4 +10,8 @@
  */
 export function errorHandler(err, req, res, next) {
   // Your code here
+  // const combinedErrorMessage = Object.values(err.errors).map((e) => e.message).join(', ');
+  if (err.name === 'ValidationError') return res.status(400).json({ error: { message: err.message } })
+  if (err.name === 'CastError') return res.status(400).json({ error: { message: `Invalid id format` } });
+  return res.status(err.status || 500).json({ error: { message: `Something went wrong` } })
 }
